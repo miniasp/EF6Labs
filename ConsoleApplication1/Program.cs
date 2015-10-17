@@ -12,13 +12,23 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
-                var data = from p in db.Course
-                           where p.Title.Contains("Git")
+                var data = from p in db.Department
                            select p;
 
-                foreach (var item in data)
+                foreach (var department in data)
                 {
-                    Console.WriteLine(item.CourseID + "\t" + item.Title);
+                    Console.WriteLine(department.DepartmentID + "\t" + department.Name);
+
+                    //var courses = from q in db.Course
+                    //              where q.DepartmentID == department.DepartmentID
+                    //              select q;
+
+                    //var courses = department.Course;
+
+                    foreach (var course in department.Course)
+                    {
+                        Console.WriteLine("\t" + course.CourseID + "\t" + course.Title);
+                    }
                 }
             }
         }
