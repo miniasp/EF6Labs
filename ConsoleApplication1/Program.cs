@@ -44,8 +44,7 @@ namespace ConsoleApplication1
                 {
                     Title = "Test",
                     Credits = 5,
-                    DepartmentID=2,
-                    ModifiedOn = DateTime.Now
+                    DepartmentID=4
                 };
 
                 db.Course.Add(c1);

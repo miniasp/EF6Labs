@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4cfdcca6734342c3993597c0258bb73c" Name="Diagram1" ZoomLevel="94">
-        <EntityTypeShape EntityType="ContosoUniversityModel.Department" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" FillColor="0, 122, 204" />
-        <EntityTypeShape EntityType="ContosoUniversityModel.OfficeAssignment" Width="1.875" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ContosoUniversityModel.Department" Width="1.5" PointX="1.5" PointY="1.25" IsExpanded="true" FillColor="0, 122, 204" />
+        <EntityTypeShape EntityType="ContosoUniversityModel.OfficeAssignment" Width="1.875" PointX="3" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="ContosoUniversityModel.Person" Width="1.75" PointX="6.125" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="ContosoUniversityModel.FK_dbo_Department_dbo_Instructor_InstructorID" ManuallyRouted="false" />
         <AssociationConnector Association="ContosoUniversityModel.FK_dbo_OfficeAssignment_dbo_Instructor_InstructorID" ManuallyRouted="false" />
