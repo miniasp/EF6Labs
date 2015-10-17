@@ -63,6 +63,11 @@ namespace ConsoleApplication1
                 //c2.Instructors.Add(db.Person.Find(5));
                 //db.SaveChanges();
 
+
+                // 取得 SQL Server 伺服器時間的方法
+                DateTime dt = db.Database.SqlQuery<DateTime>("select getdate()").First();
+
+
                 var sql = @"SELECT Course.CourseID, Course.Title, Course.Credits, Department.Name AS DepartmentName FROM Course INNER JOIN Department ON Course.DepartmentID = Department.DepartmentID";
 
                 var data2 = db.Database.SqlQuery<Course2>(sql);
