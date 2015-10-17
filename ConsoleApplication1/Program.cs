@@ -31,12 +31,35 @@ namespace ConsoleApplication1
                     }
                 }
 
-                Console.WriteLine("----------------------------------------------");
+                Console.WriteLine("--------------------------------------------------------");
 
                 foreach (var c in db.Course)
                 {
                     Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
                 }
+
+                Console.WriteLine("--------------------------------------------------------");
+
+                var c1 = new Course()
+                {
+                    Title = "Test",
+                    Credits = 5,
+                    DepartmentID=2,
+                    ModifiedOn = DateTime.Now
+                };
+
+                db.Course.Add(c1);
+                db.SaveChanges();
+
+                foreach (var c in db.Course)
+                {
+                    Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
+                }
+
+
+
+
+
             }
         }
     }

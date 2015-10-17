@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ContosoUniversityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ContosoUniversityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Course">
           <Key>
             <PropertyRef Name="CourseID" />
@@ -13,6 +13,8 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
           <Property Name="Credits" Type="int" Nullable="false" />
           <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CourseInstructor">
           <Key>
@@ -208,8 +210,7 @@
             <End Role="OfficeAssignment" EntitySet="OfficeAssignment" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ContosoUniversityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -224,6 +225,8 @@
           <NavigationProperty Name="Department" Relationship="Self.FK_dbo_Course_dbo_Department_DepartmentID" FromRole="Course" ToRole="Department" />
           <NavigationProperty Name="Enrollment" Relationship="Self.FK_dbo_Enrollment_dbo_Course_CourseID" FromRole="Course" ToRole="Enrollment" />
           <NavigationProperty Name="Person" Relationship="Self.CourseInstructor" FromRole="Course" ToRole="Person" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -404,6 +407,8 @@
           <EntitySetMapping Name="Course">
             <EntityTypeMapping TypeName="ContosoUniversityModel.Course">
               <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Credits" ColumnName="Credits" />
