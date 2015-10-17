@@ -57,13 +57,23 @@ namespace ConsoleApplication1
                 //    Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
                 //}
 
-                Console.WriteLine("--------------------------------------------------------");
+                
+                //Console.WriteLine("--------------------------------------------------------");
+                //var c2 = db.Course.Find(7);
+                //c2.Instructors.Add(db.Person.Find(5));
+                //db.SaveChanges();
 
-                var c2 = db.Course.Find(7);
+                var sql = @"SELECT Course.CourseID, Course.Title, Course.Credits, Department.Name AS DepartmentName FROM Course INNER JOIN Department ON Course.DepartmentID = Department.DepartmentID";
 
-                c2.Instructors.Add(db.Person.Find(5));
+                var data2 = db.Database.SqlQuery<Course2>(sql);
 
-                db.SaveChanges();
+                foreach (var item in data2)
+                {
+                    Console.WriteLine(item.CourseID + "\t" + item.Title + "\t" + item.DepartmentName);
+                }
+
+
+
 
             }
         }
