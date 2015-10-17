@@ -12,7 +12,7 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
-                db.Configuration.ProxyCreationEnabled = false;
+                // db.Configuration.ProxyCreationEnabled = false;
 
                 var data = from p in db.Department
                            select p;
@@ -59,9 +59,9 @@ namespace ConsoleApplication1
 
                 
                 //Console.WriteLine("--------------------------------------------------------");
-                //var c2 = db.Course.Find(7);
-                //c2.Instructors.Add(db.Person.Find(5));
-                //db.SaveChanges();
+                var c2 = db.Course.Find(7);
+                c2.Instructors.Add(db.Person.Find(5));
+                db.SaveChanges();
 
 
                 // 取得 SQL Server 伺服器時間的方法
