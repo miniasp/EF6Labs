@@ -10,6 +10,17 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            using (var db = new ContosoUniversityEntities())
+            {
+                var data = from p in db.Course
+                           where p.Title.Contains("Git")
+                           select p;
+
+                foreach (var item in data)
+                {
+                    Console.WriteLine(item.CourseID + "\t" + item.Title);
+                }
+            }
         }
     }
 }
