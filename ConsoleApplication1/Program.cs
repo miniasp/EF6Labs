@@ -30,6 +30,13 @@ namespace ConsoleApplication1
                         Console.WriteLine("\t" + course.CourseID + "\t" + course.Title);
                     }
                 }
+
+                Console.WriteLine("----------------------------------------------");
+
+                foreach (var c in db.Course)
+                {
+                    Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
+                }
             }
         }
     }
