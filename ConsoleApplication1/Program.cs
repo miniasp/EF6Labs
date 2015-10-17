@@ -12,6 +12,8 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
+                db.Configuration.ProxyCreationEnabled = false;
+
                 var data = from p in db.Department
                            select p;
 
@@ -40,24 +42,28 @@ namespace ConsoleApplication1
 
                 Console.WriteLine("--------------------------------------------------------");
 
-                var c1 = new Course()
-                {
-                    Title = "Test",
-                    Credits = 5,
-                    DepartmentID=4
-                };
+                //var c1 = new Course()
+                //{
+                //    Title = "Test",
+                //    Credits = 5,
+                //    DepartmentID=4
+                //};
 
-                db.Course.Add(c1);
+                //db.Course.Add(c1);
+                //db.SaveChanges();
+
+                //foreach (var c in db.Course.AsNoTracking())
+                //{
+                //    Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
+                //}
+
+                Console.WriteLine("--------------------------------------------------------");
+
+                var c2 = db.Course.Find(7);
+
+                c2.Instructors.Add(db.Person.Find(5));
+
                 db.SaveChanges();
-
-                foreach (var c in db.Course)
-                {
-                    Console.WriteLine(c.CourseID + "\t" + c.Title + "\t" + c.Department.Name);
-                }
-
-
-
-
 
             }
         }
