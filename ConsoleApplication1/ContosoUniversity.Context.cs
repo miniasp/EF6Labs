@@ -95,5 +95,14 @@ namespace ConsoleApplication1
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<byte[]>("Department_Update", departmentIDParameter, nameParameter, budgetParameter, startDateParameter, instructorIDParameter, rowVersion_OriginalParameter);
         }
+    
+        public virtual ObjectResult<GetCourse_Result> GetCourse(string p)
+        {
+            var pParameter = p != null ?
+                new ObjectParameter("p", p) :
+                new ObjectParameter("p", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCourse_Result>("GetCourse", pParameter);
+        }
     }
 }

@@ -12,17 +12,13 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
-                var c = db.Course.Find(1);
-                c.Credits = 21;
+                var data = db.GetCourse("%Git%");
 
-                Console.ReadKey();
-
-                db.SaveChanges();
+                foreach (var item in data)
+                {
+                    Console.WriteLine(item.DepartmentName + "\t" + item.Title);
+                }
             }
-
-
-
-            
         }
 
         private static void 離線模式範例()
