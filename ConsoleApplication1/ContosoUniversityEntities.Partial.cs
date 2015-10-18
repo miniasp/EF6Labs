@@ -17,7 +17,11 @@ namespace ConsoleApplication1
             {
                 if (entry.State == EntityState.Modified)
                 {
-                    Console.WriteLine("Entity Name: {0}", entry.Entity.GetType().FullName);
+                    Console.WriteLine("Entity Name (Proxy): {0}", entry.Entity.GetType().Name);
+
+                    Type ct = System.Data.Entity.Core.Objects.ObjectContext.GetObjectType(entry.Entity.GetType());
+
+                    Console.WriteLine("Entity Name (POCO) : {0}", ct.Name);
 
                     entry.CurrentValues.SetValues(new {
                         ModifiedOn = DateTime.Now,

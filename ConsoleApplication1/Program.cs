@@ -18,7 +18,7 @@ namespace ConsoleApplication1
                 //var cc = db.Course.Create();
                 //db.Course.AsNoTracking()
 
-                cc.Credits = 100;
+                cc.Credits++;
 
                 var ce = db.Entry(cc);
 
