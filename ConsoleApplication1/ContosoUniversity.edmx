@@ -63,6 +63,18 @@
           <Property Name="EnrollmentDate" Type="datetime" />
           <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'ContosoUniversity.dbo.vwCourse' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="vwCourse">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="Credits" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Credits" Type="int" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <Association Name="FK_dbo_Course_dbo_Department_DepartmentID">
           <End Role="Department" Type="Self.Department" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -178,6 +190,9 @@
         <Function Name="GetCourse" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetCourse2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ContosoUniversityModelStoreContainer">
           <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseInstructor" EntityType="Self.CourseInstructor" Schema="dbo" store:Type="Tables" />
@@ -185,6 +200,14 @@
           <EntitySet Name="Enrollment" EntityType="Self.Enrollment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OfficeAssignment" EntityType="Self.OfficeAssignment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwCourse" EntityType="Self.vwCourse" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwCourse].[CourseID] AS [CourseID], 
+    [vwCourse].[Title] AS [Title], 
+    [vwCourse].[Credits] AS [Credits], 
+    [vwCourse].[DepartmentName] AS [DepartmentName]
+    FROM [dbo].[vwCourse] AS [vwCourse]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_dbo_Course_dbo_Department_DepartmentID" Association="Self.FK_dbo_Course_dbo_Department_DepartmentID">
             <End Role="Department" EntitySet="Department" />
             <End Role="Course" EntitySet="Course" />
@@ -229,7 +252,7 @@
           <NavigationProperty Name="Enrollment" Relationship="Self.FK_dbo_Enrollment_dbo_Course_CourseID" FromRole="Course" ToRole="Enrollment" />
           <NavigationProperty Name="Instructors" Relationship="Self.CourseInstructor" FromRole="Course" ToRole="Person" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="Credits" Type="Int32" Nullable="false" />
+          <Property Name="Credits" Type="ContosoUniversityModel.CourseCredit" Nullable="false" />
           <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
         </EntityType>
@@ -398,20 +421,36 @@
             <Parameter Name="InstructorID" Mode="In" Type="Int32" />
             <Parameter Name="RowVersion_Original" Mode="In" Type="Binary" />
           </FunctionImport>
-          <FunctionImport Name="GetCourse" ReturnType="Collection(ContosoUniversityModel.GetCourse_Result)">
-            <Parameter Name="p" Mode="In" Type="String" />
+          <FunctionImport Name="GetCourse" ReturnType="Collection(ContosoUniversityModel.GetCourseResult)">
+          <Parameter Name="p" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vwCourse" EntityType="ContosoUniversityModel.vwCourse" />
         </EntityContainer>
         <ComplexType Name="Department_Insert_Result">
           <Property Type="Int32" Name="DepartmentID" Nullable="false" />
           <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
         </ComplexType>
-        <ComplexType Name="GetCourse_Result">
+        <ComplexType Name="GetCourseResult">
           <Property Type="Int32" Name="CourseID" Nullable="false" />
           <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Credits" Nullable="false" />
           <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EnumType Name="CourseCredit">
+          <Member Name="低" Value="1" />
+          <Member Name="中" Value="2" />
+          <Member Name="高" Value="3" />
+        </EnumType>
+        <EntityType Name="vwCourse">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="Credits" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Credits" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -493,7 +532,7 @@
           <FunctionImportMapping FunctionImportName="Department_Update" FunctionName="ContosoUniversityModel.Store.Department_Update" />
           <FunctionImportMapping FunctionImportName="GetCourse" FunctionName="ContosoUniversityModel.Store.GetCourse">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ContosoUniversityModel.GetCourse_Result">
+              <ComplexTypeMapping TypeName="ContosoUniversityModel.GetCourseResult">
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Credits" ColumnName="Credits" />
@@ -501,6 +540,16 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vwCourse">
+            <EntityTypeMapping TypeName="ContosoUniversityModel.vwCourse">
+              <MappingFragment StoreEntitySet="vwCourse">
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

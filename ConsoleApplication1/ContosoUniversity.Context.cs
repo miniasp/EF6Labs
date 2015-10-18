@@ -32,6 +32,7 @@ namespace ConsoleApplication1
         public virtual DbSet<Enrollment> Enrollment { get; set; }
         public virtual DbSet<OfficeAssignment> OfficeAssignment { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<vwCourse> vwCourse { get; set; }
     
         public virtual int Department_Delete(Nullable<int> departmentID, byte[] rowVersion_Original)
         {
@@ -96,13 +97,13 @@ namespace ConsoleApplication1
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<byte[]>("Department_Update", departmentIDParameter, nameParameter, budgetParameter, startDateParameter, instructorIDParameter, rowVersion_OriginalParameter);
         }
     
-        public virtual ObjectResult<GetCourse_Result> GetCourse(string p)
+        public virtual ObjectResult<GetCourseResult> GetCourse(string p)
         {
             var pParameter = p != null ?
                 new ObjectParameter("p", p) :
                 new ObjectParameter("p", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCourse_Result>("GetCourse", pParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCourseResult>("GetCourse", pParameter);
         }
     }
 }

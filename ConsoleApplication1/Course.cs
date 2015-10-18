@@ -25,7 +25,7 @@ namespace ConsoleApplication1
         public string Title { get; set; }
         public int DepartmentID { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public int Credits { get; set; }
+        public CourseCredit Credits { get; set; }
         public System.DateTime ModifiedOn { get; set; }
         public byte[] RowVersion { get; set; }
     

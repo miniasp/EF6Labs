@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ConsoleApplication1
 {
@@ -12,12 +14,21 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
-                var data = db.GetCourse("%Git%");
+                //var data = db.GetCourse("%Git%");
+                var data = db.Course.Include(p => p.Department);
 
                 foreach (var item in data)
                 {
+                    Console.WriteLine(item.Credits + "\t" + item.Title);
+                }
+
+
+                foreach (var item in db.vwCourse)
+                {
                     Console.WriteLine(item.DepartmentName + "\t" + item.Title);
                 }
+
+                Console.ReadLine();
             }
         }
 
@@ -29,7 +40,7 @@ namespace ConsoleApplication1
             {
                 c = db.Course.Find(1);
 
-                c.Credits = 40;
+                c.Credits = CourseCredit.中;
 
                 Console.WriteLine(db.Entry(c).State);
             }
@@ -103,7 +114,7 @@ namespace ConsoleApplication1
                 var ccc = new Course()
                 {
                     Title = "EF6",
-                    Credits = 1,
+                    Credits = CourseCredit.低,
                     Department = db.Department.Find(1)
                 };
 

@@ -11,7 +11,7 @@ namespace ConsoleApplication1
 {
     using System;
     
-    public partial class GetCourse_Result
+    public partial class GetCourseResult
     {
         public int CourseID { get; set; }
         public string Title { get; set; }

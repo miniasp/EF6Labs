@@ -73,6 +73,9 @@
       <DependentUpon>ContosoUniversity.tt</DependentUpon>
     </Compile>
     <Compile Include="Course2.cs" />
+    <Compile Include="CourseCredit.cs">
+      <DependentUpon>ContosoUniversity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Department.cs">
       <DependentUpon>ContosoUniversity.tt</DependentUpon>
     </Compile>
@@ -82,7 +85,7 @@
     <Compile Include="Enrollment.cs">
       <DependentUpon>ContosoUniversity.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetCourse_Result.cs">
+    <Compile Include="GetCourseResult.cs">
       <DependentUpon>ContosoUniversity.tt</DependentUpon>
     </Compile>
     <Compile Include="OfficeAssignment.cs">
@@ -93,6 +96,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vwCourse.cs">
+      <DependentUpon>ContosoUniversity.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
