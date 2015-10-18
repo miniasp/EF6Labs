@@ -10,6 +10,42 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            Course c;
+
+            using (var db = new ContosoUniversityEntities())
+            {
+                c = db.Course.Find(1);
+
+                c.Credits = 30;
+
+                Console.WriteLine(db.Entry(c).State);
+            }
+
+            using (var db = new ContosoUniversityEntities())
+            {
+                //db.Entry(c);
+                //db.Course.Attach(c);
+                db.Entry(c).State = System.Data.Entity.EntityState.Modified;
+
+                Console.WriteLine(db.Entry(c).State);
+
+                db.SaveChanges();
+            }
+
+            Console.WriteLine(c.Credits);
+
+            using (var db = new ContosoUniversityEntities())
+            {
+                c = db.Course.Find(1);
+
+                Console.WriteLine(c.Credits);
+            }
+
+            
+        }
+
+        private static void Day2_DbEntityEntry()
+        {
             using (var db = new ContosoUniversityEntities())
             {
                 //Day1_Practics(db);
@@ -32,7 +68,7 @@ namespace ConsoleApplication1
                     //ce.CurrentValues.SetValues(new { ModifiedOn = DateTime.Now });
                 }
 
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 //db.Course.Remove(cc);
                 ////ce.State = System.Data.Entity.EntityState.Deleted;
@@ -48,10 +84,20 @@ namespace ConsoleApplication1
 
                 //ce.Reload();
 
+                var ccc = new Course()
+                {
+                    Title = "EF6",
+                    Credits = 1,
+                    Department = db.Department.Find(1)
+                };
 
+                db.Course.Add(ccc);
 
+                Console.WriteLine("Course ID: {0}", ccc.CourseID);
 
+                db.SaveChanges();
 
+                Console.WriteLine("Course ID: {0}", ccc.CourseID);
 
             }
         }

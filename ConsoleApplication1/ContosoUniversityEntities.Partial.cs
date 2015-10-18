@@ -15,18 +15,31 @@ namespace ConsoleApplication1
 
             foreach (var entry in entities)
             {
-                if (entry.State == EntityState.Modified)
+                if (entry.Entity is Course)
                 {
-                    Console.WriteLine("Entity Name (Proxy): {0}", entry.Entity.GetType().Name);
+                    if (entry.State == EntityState.Added)
+                    {
+                        entry.CurrentValues.SetValues(new
+                        {
+                            ModifiedOn = DateTime.Now,
+                            CreatedOn = DateTime.Now
+                        });
+                    }
 
-                    Type ct = System.Data.Entity.Core.Objects.ObjectContext.GetObjectType(entry.Entity.GetType());
+                    if (entry.State == EntityState.Modified)
+                    {
+                        //Console.WriteLine("Entity Name (Proxy): {0}", entry.Entity.GetType().Name);
 
-                    Console.WriteLine("Entity Name (POCO) : {0}", ct.Name);
+                        Type ct = System.Data.Entity.Core.Objects.ObjectContext.GetObjectType(entry.Entity.GetType());
 
-                    entry.CurrentValues.SetValues(new {
-                        ModifiedOn = DateTime.Now,
-                        修改時間 = DateTime.Now
-                    });
+                        //Console.WriteLine("Entity Name (POCO) : {0}", ct.Name);
+
+                        entry.CurrentValues.SetValues(new
+                        {
+                            ModifiedOn = DateTime.Now,
+                            修改時間 = DateTime.Now
+                        });
+                    }
                 }
             }
 
