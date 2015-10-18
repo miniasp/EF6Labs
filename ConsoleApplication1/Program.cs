@@ -10,21 +10,37 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            using (var db = new ContosoUniversityEntities())
+            {
+                var c = db.Course.Find(1);
+                c.Credits = 21;
+
+                Console.ReadKey();
+
+                db.SaveChanges();
+            }
+
+
+
+            
+        }
+
+        private static void 離線模式範例()
+        {
             Course c;
 
             using (var db = new ContosoUniversityEntities())
             {
                 c = db.Course.Find(1);
 
-                c.Credits = 30;
+                c.Credits = 40;
 
                 Console.WriteLine(db.Entry(c).State);
             }
 
             using (var db = new ContosoUniversityEntities())
             {
-                //db.Entry(c);
-                //db.Course.Attach(c);
+                db.Course.Attach(c);
                 db.Entry(c).State = System.Data.Entity.EntityState.Modified;
 
                 Console.WriteLine(db.Entry(c).State);
@@ -39,9 +55,13 @@ namespace ConsoleApplication1
                 c = db.Course.Find(1);
 
                 Console.WriteLine(c.Credits);
-            }
 
-            
+
+                //db.Course.Remove(db.Course.Find(22));
+
+                //db.Entry(new Course() { CourseID = 22 }).State = System.Data.Entity.EntityState.Deleted;
+                //db.SaveChanges();
+            }
         }
 
         private static void Day2_DbEntityEntry()

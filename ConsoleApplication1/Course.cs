@@ -27,6 +27,7 @@ namespace ConsoleApplication1
         public System.DateTime CreatedOn { get; set; }
         public int Credits { get; set; }
         public System.DateTime ModifiedOn { get; set; }
+        public byte[] RowVersion { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
