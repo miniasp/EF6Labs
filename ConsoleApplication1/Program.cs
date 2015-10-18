@@ -27,7 +27,30 @@ namespace ConsoleApplication1
                 {
                     Console.WriteLine("Curr: " + cc.Credits);
                     Console.WriteLine("Orig: " + ce.OriginalValues.GetValue<int>("Credits"));
+
+                    //cc.ModifiedOn = DateTime.Now;
+                    //ce.CurrentValues.SetValues(new { ModifiedOn = DateTime.Now });
                 }
+
+                db.SaveChanges();
+
+                //db.Course.Remove(cc);
+                ////ce.State = System.Data.Entity.EntityState.Deleted;
+
+                //cc.Credits = 50;
+
+                //Console.WriteLine(ce.State);
+                //if (ce.State == System.Data.Entity.EntityState.Deleted)
+                //{
+                //    Console.WriteLine("Curr: " + cc.Credits);
+                //    Console.WriteLine("Orig: " + ce.OriginalValues.GetValue<int>("Credits"));
+                //}
+
+                //ce.Reload();
+
+
+
+
 
 
             }
