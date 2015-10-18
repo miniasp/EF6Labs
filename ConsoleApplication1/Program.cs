@@ -14,6 +14,11 @@ namespace ConsoleApplication1
         {
             using (var db = new ContosoUniversityEntities())
             {
+                db.Database.Log = (msg) =>
+                {
+                    Trace.WriteLine(msg);
+                };
+
                 //var data = db.GetCourse("%Git%");
                 var data = db.Course.Include(p => p.Department);
 
